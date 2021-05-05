@@ -1,5 +1,6 @@
 package com.example.cart12312;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,13 +12,16 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.CustomViewHolder> {
 
     private ArrayList<MainData> arrayList;
+    private Context context; //액티비티 마다 콘텍스트가 있는데 어탭터에서 액티비티 액션을 가져올때 콘텍스트를 쓸대 필요함
 
-    public MainAdapter(ArrayList<MainData> arrayList) {
+    public MainAdapter(ArrayList<MainData> arrayList, RecylerView recylerView) {
         this.arrayList = arrayList;
     }
 
@@ -25,7 +29,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.CustomViewHold
     @Override
     public MainAdapter.CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list, parent, false);//리사이클러뷰 한 컬럼을 만듬
         CustomViewHolder holder = new CustomViewHolder(view);
 
 
@@ -34,57 +38,34 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.CustomViewHold
 
     @Override
     public void onBindViewHolder(@NonNull MainAdapter.CustomViewHolder holder, int position) {
-        holder.iv_profile.setImageResource(arrayList.get(position).getIv_profile());
-        holder.tv_name.setText(arrayList.get(position).getTv_name());
-        holder.tv_content.setText(arrayList.get(position).getTv_content());
+        Glide.with(holder.itemView)
+                .load(arrayList.get(position).getProfile())
+                .into(holder.profile);//arraylist를 MainData에 연결을 해놨는데  파이어베이스에서 데이터를 받아서 MainData에 담아서 Adater에 보낸다
+        holder.name.setText(arrayList.get(position).getName());//리스트 컬럼을 여러개 만들기 위해 담당
+        holder.price.setText(String.valueOf(arrayList.get(position).getPrice()));
 
-        holder.itemView.setTag(position);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String curName = holder.tv_name.getText().toString();
-                Toast.makeText(view.getContext(), curName, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                remove(holder.getAdapterPosition());
-
-
-                return true;
-            }
-        });
 
     }
 
     @Override
     public int getItemCount() {
+        //삼항 연산자 arryList가 참이면 실행 아니면 실행을 안한다다
         return (null != arrayList ? arrayList.size() : 0);
 
     }
 
-    public void remove(int position) {
-        try {
-            arrayList.remove(position);
-            notifyItemRemoved(position);
-        } catch (IndexOutOfBoundsException ex) {
-            ex.printStackTrace();
-        }
-    }
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
 
-        protected ImageView iv_profile;
-        protected TextView tv_name;
-        protected TextView tv_content;
+        ImageView profile;
+        TextView name;
+        TextView price;
 
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
-            this.iv_profile = (ImageView) itemView.findViewById(R.id.iv_profile);
-            this.tv_name = (TextView) itemView.findViewById(R.id.tv_name);
-            this.tv_content = (TextView) itemView.findViewById(R.id.tv_content);
+            this.profile = (ImageView) itemView.findViewById(R.id.profile);
+            this.name = (TextView) itemView.findViewById(R.id.name);
+            this.price = (TextView) itemView.findViewById(R.id.price);
 
         }
     }

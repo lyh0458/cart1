@@ -24,7 +24,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
-public class MainActivity2 extends AppCompatActivity
+public class Bluetooth extends AppCompatActivity
 {
     private final int REQUEST_BLUETOOTH_ENABLE = 100;
 
@@ -42,7 +42,7 @@ public class MainActivity2 extends AppCompatActivity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.bluetooth);
 
         Button sendButton = (Button)findViewById(R.id.send_button);
         sendButton.setOnClickListener(new View.OnClickListener(){

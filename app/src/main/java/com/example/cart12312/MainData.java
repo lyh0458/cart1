@@ -2,37 +2,33 @@ package com.example.cart12312;
 
 public class MainData {
 
-    private int iv_profile;
-    private String tv_name;
-    private String tv_content;
+  private String  profile; //String 을 쓴 이유는 파이어 베이스에서 URL 문자 열을 갖고오기 떄문
+  private String  name;
+  private int price;
 
-    public MainData(int iv_profile, String tv_name, String tv_content) {
-        this.iv_profile = iv_profile;
-        this.tv_name = tv_name;
-        this.tv_content = tv_content;
+  public MainData(){}{}
+
+    public String getProfile() {
+        return profile;
     }
 
-    public int getIv_profile() {
-        return iv_profile;
+    public void setProfile(String profile) {
+        this.profile = profile;
     }
 
-    public void setIv_profile(int iv_profile) {
-        this.iv_profile = iv_profile;
+    public String getName() {
+        return name;
     }
 
-    public String getTv_name() {
-        return tv_name;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setTv_name(String tv_name) {
-        this.tv_name = tv_name;
+    public int getPrice() {
+        return price;
     }
 
-    public String getTv_content() {
-        return tv_content;
-    }
-
-    public void setTv_content(String tv_content) {
-        this.tv_content = tv_content;
+    public void setPrice(int price) {
+        this.price = price;
     }
 }
